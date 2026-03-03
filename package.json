@@ -1,7 +1,7 @@
 {
   "name": "sound-of-hope",
   "version": "1.0.0",
-  "description": "Sound of Hope - Fundraising site for children's hearing devices",
+  "description": "Sounds of Hope - Fundraising site for children's hearing devices",
   "type": "module",
   "scripts": {
     "dev": "vite",

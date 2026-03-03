@@ -5,7 +5,7 @@ export const en = {
     switchLang: 'العربية',
   },
   hero: {
-    title: 'Sound of Hope',
+    title: 'Sounds of Hope',
     subtitle: 'Help a child hear again',
   },
   description: [
@@ -16,7 +16,7 @@ export const en = {
     'Your donation is not just a contribution.\nIt is the moment someone hears again. ✨\nIt is a child returning to school with confidence 📚\nIt is a parent going back to work with dignity 💼\nIt is a young person believing they can build a future and a family 🤍',
     'When you give back hearing, you give back belonging.\nWhen you give back hearing, you give back life.',
     '"ومن أحياها فكأنما أحيا الناس جميعًا"',
-    '✨ Give back the gift of hearing.\n✨ Restore life.\n✨ Be the Sound of Hope.',
+    '✨ Give back the gift of hearing.\n✨ Restore life.\n✨ Be the Sounds of Hope.',
   ],
   goal: {
     title: 'Our Goal',
@@ -56,7 +56,7 @@ export const en = {
     number: '+961 81 743 581',
   },
   footer: {
-    tagline: '✨ Be the Sound of Hope.',
-    rights: 'Sound of Hope Campaign',
+    tagline: '✨ Be the Sounds of Hope.',
+    rights: 'Sounds of Hope Campaign',
   },
 }

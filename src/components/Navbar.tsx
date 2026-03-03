@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="w-full bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Sound of Hope" className="w-20 h-20 rounded-full object-cover" />
+          <img src={logo} alt="Sounds of Hope" className="w-20 h-20 rounded-full object-cover" />
           <span className="font-bold text-amber-900 text-lg">{t.hero.title}</span>
         </div>
         <button
