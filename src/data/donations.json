@@ -1,0 +1,17 @@
+{
+  "hearing_aid": {
+    "goal": 600,
+    "raised": 0,
+    "donations": []
+  },
+  "surgery": {
+    "goal": 23000,
+    "raised": 0,
+    "donations": []
+  },
+  "batteries": {
+    "goal": 150,
+    "raised": 0,
+    "donations": []
+  }
+}
