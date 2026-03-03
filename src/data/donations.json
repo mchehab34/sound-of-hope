@@ -1,8 +1,14 @@
 {
   "hearing_aid": {
     "goal": 600,
-    "raised": 0,
-    "donations": []
+    "raised": 300,
+    "donations": [
+      {
+        "name": "Anonymous",
+        "amount": 300,
+        "date": "2026-03-03"
+      }
+    ]
   },
   "surgery": {
     "goal": 23000,
