@@ -52,6 +52,7 @@ export const ar = {
     instructions: 'أرسل تبرعك إلى الرقم التالي:',
     omt: { title: 'OMT' },
     wish: { title: 'Wish Money' },
+    whatsapp: 'أخبرني إذا أردت المساعدة 🤍',
     contact: 'بعد التبرع، يرجى التواصل معنا لتأكيد مساهمتك.',
     number: '+961 81 743 581',
   },

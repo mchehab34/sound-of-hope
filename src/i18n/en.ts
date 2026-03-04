@@ -52,6 +52,7 @@ export const en = {
     instructions: 'Send your donation to the following number:',
     omt: { title: 'OMT' },
     wish: { title: 'Wish Money' },
+    whatsapp: 'Let me know if you want to help 🤍',
     contact: 'After donating, please contact us to confirm your contribution.',
     number: '+961 81 743 581',
   },
