@@ -5,5 +5,3 @@ dist
 .env*
 .claudeignore
 .claude/
-TODO.txt
-desc.txt
