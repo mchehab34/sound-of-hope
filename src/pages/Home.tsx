@@ -90,7 +90,7 @@ function HomeContent() {
         <div className="relative inline-block mb-6">
           <div className="absolute inset-0 rounded-full blur-2xl opacity-40 scale-125"
             style={{ background: 'radial-gradient(circle, #fbbf24, #f97316, transparent 70%)' }} />
-          <img src={logo} alt="Sound of Hope" className="relative w-32 h-32 rounded-full object-cover shadow-xl ring-4 ring-amber-200" />
+          <img src={logo} alt="Sounds of Hope" className="relative w-32 h-32 rounded-full object-cover shadow-xl ring-4 ring-amber-200" />
         </div>
         <h1 className="text-5xl font-bold text-amber-900 mb-3 tracking-normal">{t.hero.title}</h1>
         <p className="text-xl text-orange-600 font-medium">{t.hero.subtitle}</p>
@@ -105,12 +105,27 @@ function HomeContent() {
         )}
       </section>
 
+      {/* Overall Progress */}
+      <section className="w-full py-10">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="bg-white rounded-2xl shadow-md p-7 border border-amber-100">
+            <h2 className="text-2xl font-bold text-amber-900 mb-1">{t.goal.title}</h2>
+            <p className="text-amber-600 text-sm mb-5">{t.goal.subtitle}</p>
+            <ProgressBar raised={totalRaised} goal={totalGoal} large />
+            <div className="flex justify-between mt-3 text-sm text-amber-700">
+              <span>{t.goal.totalRaised}: <strong className="text-orange-600">${totalRaised.toLocaleString()}</strong></span>
+              <span>{t.goal.totalGoal}: <strong className="text-amber-800">${totalGoal.toLocaleString()}</strong></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Description */}
       <section className="max-w-2xl mx-auto px-4 pb-12">
         <div className="bg-white/70 rounded-2xl p-7 shadow-sm border border-amber-100 space-y-4 leading-relaxed">
           {t.description.map((para, i) => {
             if (i === 0) return <p key={i} className="whitespace-pre-line text-lg font-semibold text-amber-950">{para}</p>
-            if (i === 6) return <p key={i} className="text-center text-xl font-bold text-orange-600 border-t border-b border-amber-200 py-4">{para}</p>
+            if (i === 6) return <p key={i} dir="rtl" className="text-center text-xl font-bold text-orange-600 border-t border-b border-amber-200 py-4">{para}</p>
             if (i === t.description.length - 1) return <p key={i} className="whitespace-pre-line font-semibold text-orange-600">{para}</p>
             return <p key={i} className="whitespace-pre-line text-amber-800">{para}</p>
           })}
@@ -125,21 +140,6 @@ function HomeContent() {
               <img src={src} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Overall Progress */}
-      <section className="w-full bg-white/50 py-10">
-        <div className="max-w-2xl mx-auto px-4">
-          <div className="bg-white rounded-2xl shadow-md p-7 border border-amber-100">
-            <h2 className="text-2xl font-bold text-amber-900 mb-1">{t.goal.title}</h2>
-            <p className="text-amber-600 text-sm mb-5">{t.goal.subtitle}</p>
-            <ProgressBar raised={totalRaised} goal={totalGoal} large />
-            <div className="flex justify-between mt-3 text-sm text-amber-700">
-              <span>{t.goal.totalRaised}: <strong className="text-orange-600">${totalRaised.toLocaleString()}</strong></span>
-              <span>{t.goal.totalGoal}: <strong className="text-amber-800">${totalGoal.toLocaleString()}</strong></span>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -166,7 +166,7 @@ function HomeContent() {
           </div>
           <div className="bg-amber-50 px-7 py-6 text-center space-y-3">
             <a
-              href={`https://wa.me/${t.donate.number.replace(/\D/g, '')}?text=${encodeURIComponent('Hi, I want to donate to Sound of Hope 🤍')}`}
+              href={`https://wa.me/${t.donate.number.replace(/\D/g, '')}?text=${encodeURIComponent('Hi, I want to donate to Sounds of Hope 🤍')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors mx-auto"

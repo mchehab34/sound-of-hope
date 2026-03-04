@@ -1,11 +1,7 @@
 @import "tailwindcss";
 
 @layer base {
-  body {
-    font-family: 'Inter', sans-serif;
-  }
-
-  h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
+  body, h1, h2, h3 {
+    font-family: 'Cairo', sans-serif;
   }
 }

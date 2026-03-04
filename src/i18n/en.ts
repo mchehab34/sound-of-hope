@@ -15,7 +15,7 @@ export const en = {
     'But you can change that.',
     'Your donation is not just a contribution.\nIt is the moment someone hears again. ✨\nIt is a child returning to school with confidence 📚\nIt is a parent going back to work with dignity 💼\nIt is a young person believing they can build a future and a family 🤍',
     'When you give back hearing, you give back belonging.\nWhen you give back hearing, you give back life.',
-    '"ومن أحياها فكأنما أحيا الناس جميعًا"',
+    '{وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا}',
     '✨ Give back the gift of hearing.\n✨ Restore life.\n✨ Be the Sounds of Hope.',
   ],
   goal: {
