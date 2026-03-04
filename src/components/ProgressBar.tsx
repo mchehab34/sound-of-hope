@@ -17,10 +17,14 @@ export default function ProgressBar({ raised, goal, label, large }: Props) {
         </div>
       )}
       <div className={`w-full bg-amber-100 rounded-full overflow-hidden ${large ? 'h-5' : 'h-3'}`}>
-        <div
-          className={`h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-700 ${large ? 'shadow-md' : ''}`}
-          style={{ width: `${pct}%` }}
-        />
+        {pct === 0 ? (
+          <div className="h-full w-full rounded-full bg-amber-200 animate-pulse" />
+        ) : (
+          <div
+            className={`h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-700 ${large ? 'shadow-md' : ''}`}
+            style={{ width: `${pct}%` }}
+          />
+        )}
       </div>
       {large && (
         <p className="text-right text-xs text-amber-700 mt-1">{pct.toFixed(1)}% reached</p>

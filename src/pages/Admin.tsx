@@ -1,7 +1,5 @@
-import { useState } from 'react'
-import donationsData from '../data/donations.json'
-
-type Category = 'hearing_aid' | 'surgery' | 'batteries'
+import { useState, useEffect } from 'react'
+import { supabase, GOALS, type Category, type Donation } from '../lib/supabase'
 
 const CATEGORY_LABELS: Record<Category, string> = {
   hearing_aid: 'Hearing Aid',
@@ -9,52 +7,45 @@ const CATEGORY_LABELS: Record<Category, string> = {
   batteries: 'Batteries',
 }
 
-type Donation = { name: string; amount: number; date: string }
-
-type DonationsState = {
-  hearing_aid: { goal: number; raised: number; donations: Donation[] }
-  surgery: { goal: number; raised: number; donations: Donation[] }
-  batteries: { goal: number; raised: number; donations: Donation[] }
-}
-
 export default function Admin() {
-  const [data, setData] = useState<DonationsState>(donationsData as DonationsState)
+  const [donations, setDonations] = useState<Donation[]>([])
   const [form, setForm] = useState({ name: '', amount: '', category: 'hearing_aid' as Category })
-  const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState('')
 
-  const handleAdd = () => {
+  const fetchDonations = async () => {
+    const { data } = await supabase.from('donations').select('*').order('created_at', { ascending: false })
+    if (data) setDonations(data as Donation[])
+  }
+
+  useEffect(() => { fetchDonations() }, [])
+
+  const handleAdd = async () => {
     const amount = parseFloat(form.amount)
     if (!form.name || isNaN(amount) || amount <= 0) return
 
-    const newDonation: Donation = {
+    setSaving(true)
+    const { error } = await supabase.from('donations').insert({
       name: form.name,
       amount,
-      date: new Date().toISOString().split('T')[0],
+      category: form.category,
+    })
+    setSaving(false)
+
+    if (error) {
+      setMessage('Error: ' + error.message)
+    } else {
+      setMessage('Donation added!')
+      setForm(f => ({ ...f, name: '', amount: '' }))
+      fetchDonations()
+      setTimeout(() => setMessage(''), 2500)
     }
-
-    setData(prev => ({
-      ...prev,
-      [form.category]: {
-        ...prev[form.category],
-        raised: prev[form.category].raised + amount,
-        donations: [...prev[form.category].donations, newDonation],
-      },
-    }))
-
-    setForm(f => ({ ...f, name: '', amount: '' }))
-    setSaved(false)
   }
 
-  const exportJson = () => {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'donations.json'
-    a.click()
-    URL.revokeObjectURL(url)
-    setSaved(true)
-  }
+  const totals = (Object.keys(GOALS) as Category[]).map(cat => ({
+    cat,
+    raised: donations.filter(d => d.category === cat).reduce((s, d) => s + d.amount, 0),
+  }))
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -99,10 +90,12 @@ export default function Admin() {
             </div>
             <button
               onClick={handleAdd}
-              className="bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg px-4 py-2 transition-colors"
+              disabled={saving}
+              className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-semibold rounded-lg px-4 py-2 transition-colors"
             >
-              Add Donation
+              {saving ? 'Saving...' : 'Add Donation'}
             </button>
+            {message && <p className="text-sm text-center text-green-600 font-medium">{message}</p>}
           </div>
         </div>
 
@@ -110,11 +103,11 @@ export default function Admin() {
         <div className="bg-white rounded-xl shadow p-6 mb-6">
           <h2 className="font-bold text-gray-700 mb-3">Current Totals</h2>
           <div className="space-y-2">
-            {(Object.keys(CATEGORY_LABELS) as Category[]).map(cat => (
+            {totals.map(({ cat, raised }) => (
               <div key={cat} className="flex justify-between text-sm">
                 <span className="text-gray-600">{CATEGORY_LABELS[cat]}</span>
                 <span className="font-semibold text-amber-700">
-                  ${data[cat].raised.toLocaleString()} / ${data[cat].goal.toLocaleString()}
+                  ${raised.toLocaleString()} / ${GOALS[cat].toLocaleString()}
                 </span>
               </div>
             ))}
@@ -122,47 +115,33 @@ export default function Admin() {
         </div>
 
         {/* Donation log */}
-        <div className="bg-white rounded-xl shadow p-6 mb-6">
+        <div className="bg-white rounded-xl shadow p-6">
           <h2 className="font-bold text-gray-700 mb-3">Donation Log</h2>
-          {(Object.keys(CATEGORY_LABELS) as Category[]).map(cat => (
-            data[cat].donations.length > 0 && (
-              <div key={cat} className="mb-4">
-                <h3 className="text-sm font-semibold text-amber-700 mb-2">{CATEGORY_LABELS[cat]}</h3>
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left text-gray-400 text-xs border-b">
-                      <th className="pb-1">Name</th>
-                      <th className="pb-1">Amount</th>
-                      <th className="pb-1">Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data[cat].donations.map((d, i) => (
-                      <tr key={i} className="border-b border-gray-50">
-                        <td className="py-1">{d.name}</td>
-                        <td className="py-1 text-green-600">${d.amount}</td>
-                        <td className="py-1 text-gray-400">{d.date}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )
-          ))}
+          {donations.length === 0 ? (
+            <p className="text-sm text-gray-400">No donations yet.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-gray-400 text-xs border-b">
+                  <th className="pb-1">Name</th>
+                  <th className="pb-1">Category</th>
+                  <th className="pb-1">Amount</th>
+                  <th className="pb-1">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {donations.map(d => (
+                  <tr key={d.id} className="border-b border-gray-50">
+                    <td className="py-1">{d.name}</td>
+                    <td className="py-1 text-gray-500">{CATEGORY_LABELS[d.category]}</td>
+                    <td className="py-1 text-green-600">${d.amount}</td>
+                    <td className="py-1 text-gray-400">{new Date(d.created_at).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-
-        {/* Export */}
-        <button
-          onClick={exportJson}
-          className="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-lg px-4 py-3 transition-colors"
-        >
-          {saved ? '✓ Downloaded — replace src/data/donations.json and push' : 'Export donations.json'}
-        </button>
-        {saved && (
-          <p className="text-xs text-center text-gray-400 mt-2">
-            Replace <code>src/data/donations.json</code> with the downloaded file, then commit & push to update the site.
-          </p>
-        )}
       </div>
     </div>
   )

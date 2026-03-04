@@ -1,18 +1,18 @@
 import ProgressBar from './ProgressBar'
 import { useLang } from '../context/LangContext'
-
-type Category = 'hearing_aid' | 'surgery' | 'batteries'
+import type { Category } from '../lib/supabase'
 
 type Props = {
   category: Category
   raised: number
+  goal: number
   icon: string
+  donorCount: number
 }
 
-export default function CategoryCard({ category, raised, icon }: Props) {
+export default function CategoryCard({ category, raised, goal, icon, donorCount }: Props) {
   const { t } = useLang()
   const info = t.categories[category]
-  const pct = Math.min((raised / info.goal) * 100, 100)
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col gap-4 border border-amber-100 hover:shadow-lg transition-shadow">
@@ -23,12 +23,14 @@ export default function CategoryCard({ category, raised, icon }: Props) {
           <p className="text-sm text-amber-700">{info.description}</p>
         </div>
       </div>
-      <ProgressBar raised={raised} goal={info.goal} />
+      <ProgressBar raised={raised} goal={goal} />
       <div className="flex justify-between text-sm font-semibold">
         <span className="text-orange-600">${raised.toLocaleString()} {t.progress.raised}</span>
-        <span className="text-amber-500">{pct.toFixed(1)}%</span>
-        <span className="text-amber-800">${info.goal.toLocaleString()} {t.progress.goal}</span>
+        <span className="text-amber-800">${goal.toLocaleString()} {t.progress.goal}</span>
       </div>
+      {donorCount > 0 && (
+        <p className="text-xs text-amber-400">{donorCount} {t.actions.donors}</p>
+      )}
     </div>
   )
 }

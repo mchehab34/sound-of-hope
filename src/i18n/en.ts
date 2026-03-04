@@ -59,4 +59,10 @@ export const en = {
     tagline: '✨ Be the Sounds of Hope.',
     rights: 'Sounds of Hope Campaign',
   },
+  actions: {
+    share: 'Share',
+    copied: 'Copied!',
+    copyNumber: 'Tap to copy',
+    donors: 'donors',
+  },
 }

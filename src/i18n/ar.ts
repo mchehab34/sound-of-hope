@@ -59,4 +59,10 @@ export const ar = {
     tagline: '✨ كن صوت الأمل.',
     rights: 'حملة صوت الأمل',
   },
+  actions: {
+    share: 'مشاركة',
+    copied: 'تم النسخ!',
+    copyNumber: 'اضغط للنسخ',
+    donors: 'متبرع',
+  },
 }
